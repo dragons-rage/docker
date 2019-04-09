@@ -17,4 +17,10 @@ run `run-tintin.sh` or
 docker run -it --name tintin tintin
 ```
 
+## Altnernative Method of building
+
+```bash
+docker build -t tintin https://github.com/dstritzel/docker.git\#master/tintin
+```
+
 Docker Modules to assist in daily one off programs
