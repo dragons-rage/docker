@@ -1,4 +1,4 @@
-FROM dstritzel/alpine-core:latest
+FROM dstritzel/ubuntu-core:latest
 LABEL maintainer "dstritzel <dstritzel@users.noreply.github.com>"
 
 ENV DIRECTORY_CONFIG=/config \
@@ -15,7 +15,7 @@ RUN echo "**** install gs-server ****" && \
  echo "**** cleanup ****" && \
  rm -rf /tmp/*
 
-ADD --chown=abc:abc root/ /
+ADD root/ /
 
 # [PORTS]
 # WebUI Port
