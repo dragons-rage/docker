@@ -1,7 +1,8 @@
 # docker
-Docker Modules to assist in daily one off programs
+Docker Modules to assist in daily one off programs.
 
 ## Programs
+alpine-core - Modified alpine core for any hub items used in this repo
 tintin - A program that allows for connecting to MUDs (Text Based Multi User Dungeons)
 
 
