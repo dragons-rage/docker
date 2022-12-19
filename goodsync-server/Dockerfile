@@ -5,9 +5,9 @@ ENV DIRECTORY_CONFIG=/config \
     DIRECTORY_DATA=/data \
     ARCH=x86_64
 
-
 ADD https://www.goodsync.com/download/goodsync-release-${ARCH}.tar.gz /tmp/goodsync-release-${ARCH}.tar.gz
 
+ADD root/ /
 
 RUN echo "**** install gs-server ****" && \
  tar xvzf /tmp/goodsync-release-${ARCH}.tar.gz -C /usr/bin --strip-components=1 && \
@@ -15,7 +15,6 @@ RUN echo "**** install gs-server ****" && \
  echo "**** cleanup ****" && \
  rm -rf /tmp/*
 
-ADD root/ /
 
 # [PORTS]
 # WebUI Port
@@ -28,4 +27,3 @@ EXPOSE 33339/udp
 
 VOLUME [ "/data", "/config" ]
 
-ENTRYPOINT [ "/usr/bin/gs-server", "/profile=${DIRECTORY_CONFIG}" ]

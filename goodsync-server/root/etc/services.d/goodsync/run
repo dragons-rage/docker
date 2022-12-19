@@ -1,15 +1,17 @@
 #!/bin/env sh
-if [ test -f "/config/.initialized"]; then
+if [ -f "/config/.initialized" ]; then
     echo "Config already initialized"
 else
     echo "Initializing config"
-    /usr/bin/gs-server /profile=${DIRECTORY_CONFIG} &
+    /usr/bin/gs-server /profile=${DIRECTORY_CONFIG:=/config} /set-admin="${ADMIN_USERNAME}:${ADMIN_PASSWORD}" /console &
     PID=$!
     sleep 10
     kill $PID
     # Enable remote access
     sed -i 's/WebUiLocalOnly = Yes/WebUiLocalOnly = No/' /config/settings.tix
+    touch /config/.initialized
+    sleep 3
 fi
 
-exec /usr/bin/gs-server /profile=${DIRECTORY_CONFIG}
+/usr/bin/gs-server /profile=${DIRECTORY_CONFIG:=/config} /console
 
