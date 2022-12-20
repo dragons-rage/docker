@@ -16,5 +16,4 @@ RUN tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz && \
     tar -C / -Jxpf /tmp/s6-overlay-${ARCH}.tar.xz && \
     rm -rf /tmp/*
 
-
 ENTRYPOINT ["/init"]
