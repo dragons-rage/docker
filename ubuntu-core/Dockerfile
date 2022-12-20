@@ -5,13 +5,12 @@ ARG S6_ARCH=x86_64 \
     TARGETARCH \
     TARGETOS
 
-RUN  apt-get update \
-  && apt-get install -y \
-     xz-utils \
-     curl \
-  && rm -rf /var/lib/apt/lists/*
 ADD build.sh /tmp/build.sh
-RUN echo "*** Run Build Script***" && \
+
+RUN apt-get update && \
+    apt-get install -y xz-utils curl && \
+    rm -rf /var/lib/apt/lists/* && \
+    echo "*** Run Build Script***" && \
     chmod +x /tmp/build.sh && \
     /tmp/build.sh
 
