@@ -4,7 +4,6 @@ on:
   push:
     branches:
     - 'master'
-    - 'test-branch'
     paths:
     - 'ubuntu-core/**'
     - '.github/workflows/hub-uploads.yml'
@@ -46,7 +45,7 @@ jobs:
         with:
           platforms: linux/amd64,linux/arm64
           context: "{{defaultContext}}:ubuntu-core"
-          push: false
+          push: true
           tags: faliarin/ubuntu-core:latest,faliarin/ubuntu-core:${{ steps.version.outputs.version }}
 
       - name: Tag Release (vX.Y.Z)
