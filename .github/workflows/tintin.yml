@@ -1,12 +1,11 @@
-name: build-ubuntu-core
+name: build-alpine-core
 run-name: ${{ github.actor }} kicked off a build.
 on:
   push:
     branches:
     - 'master'
     paths:
-    - 'ubuntu-core/**'
-    - '.github/workflows/hub-uploads.yml'
+    - 'alpine-core/**'
     
 
 jobs:
@@ -34,8 +33,8 @@ jobs:
         uses: PaulHatch/semantic-version@v5.0.0-beta2
         id: version
         with:
-          change_path: "ubuntu-core"
-          namespace: "ubuntu-core"
+          change_path: "tintin"
+          namespace: "tintin"
 
       - name: Echo Version
         run: echo "Version would be ${{ steps.version.outputs.version }}"
@@ -44,9 +43,9 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           platforms: linux/amd64,linux/arm64
-          context: "{{defaultContext}}:ubuntu-core"
+          context: "{{defaultContext}}:tintin"
           push: true
-          tags: faliarin/ubuntu-core:latest,faliarin/ubuntu-core:${{ steps.version.outputs.version }}
+          tags: faliarin/tintin:latest,faliarin/tintin:${{ steps.version.outputs.version }}
 
       - name: Tag Release (vX.Y.Z)
         run: |
