@@ -28,6 +28,7 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v3
         with:
+          platforms: linux/amd64,linux/aarch64
           context: "{{defaultContext}}:ubuntu-core"
           push: true
           tags: faliarin/ubuntu-core:latest
