@@ -1,7 +1,9 @@
 FROM ubuntu:latest
 LABEL maintainer="github.com/dstritzel"
 ARG ARCH=x86_64 \
-    S6_OVERLAY_VERSION=3.1.2.1
+    S6_OVERLAY_VERSION=3.1.2.1 \
+    TARGETARCH \
+    TARGETOS
 
 RUN if [ "$TARGETARCH" = "arm64" ]; then ARCH="aarch64"; fi
 
