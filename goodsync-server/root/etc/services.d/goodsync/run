@@ -11,7 +11,7 @@ else
             exit 1
         fi
     else
-        echo "Setting admin username and password ${GS_USER_SECRET} ${GS_PASS_SECRET}"
+        echo "Setting admin username and password ${GS_USER_SECRET}"
         ADMIN_USERNAME=$(cat /run/secrets/${GS_USER_SECRET})
         ADMIN_PASSWORD=$(cat /run/secrets/${GS_PASS_SECRET})
     fi
