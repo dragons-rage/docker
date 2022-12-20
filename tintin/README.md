@@ -6,16 +6,13 @@ git clone https://github.com/dstritzel/docker.git
 ## Installing
 Ensure Docker is on your system and do the following and you are in the docker directory.
 
-```bash
-cd tintin && ./build-tintin.sh
-```
-
 ## Running
 
-run `run-tintin.sh` or
 ```bash
-docker run -it --name tintin tintin
+docker run -it --name tintin faliarin/tintin:latest
 ```
+
+Add --rm if you want to remove the container after you are complete.
 
 ## Altnernative Method of building
 
