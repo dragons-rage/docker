@@ -27,7 +27,7 @@ jobs:
 
       # https://github.com/marketplace/actions/auto-increment-semver-action
       - name: Auto Increment Semver Action
-        uses: MCKanpolat/auto-semver-action@1.0.6
+        uses: MCKanpolat/auto-semver-action@1.0.9
         id: versioning
         with:
           releaseType: premajor 
