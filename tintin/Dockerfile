@@ -7,5 +7,8 @@ RUN wget -L -O /tmp/tintin.tar.gz 'https://github.com/scandum/tintin/releases/do
     && cd /tmp \
     && tar -xf tintin.tar.gz \
     && cd tt/src && ./configure && make && make install && cd /tmp && rm -rf tintin.tar.gz tt
-CMD ["tt++"]
+VOLUME [ "/config" ]
+
+ENTRYPOINT [ "" ]
+CMD ["tt++", "/config/run.tin"]
 
