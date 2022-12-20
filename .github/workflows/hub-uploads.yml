@@ -25,10 +25,20 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
-        name: Build and push
+        name: Build and push general
         uses: docker/build-push-action@v3
         with:
-          platforms: linux/amd64,linux/aarch64
+          platforms: linux/amd64
           context: "{{defaultContext}}:ubuntu-core"
+          push: true
+          tags: faliarin/ubuntu-core:latest
+      -
+        name: Build and push ARM64
+        uses: docker/build-push-action@v3
+        with:
+          platforms: linux/arm64
+          context: "{{defaultContext}}:ubuntu-core"
+          build-args:
+          - S6_ARCH=aarch64
           push: true
           tags: faliarin/ubuntu-core:latest
