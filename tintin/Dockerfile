@@ -1,4 +1,5 @@
 FROM faliarin/alpine-core:latest
+
 LABEL maintainer "dstritzel <dstritzel@users.noreply.github.com>"
 
 RUN apk add --no-cache wget build-base zlib-dev gnutls-dev pcre-dev make
