@@ -12,5 +12,5 @@ RUN wget -L -O /tmp/tintin.tar.gz 'https://github.com/scandum/tintin/releases/do
     && cd tt/src && ./configure && make && make install && cd /tmp && rm -rf tintin.tar.gz tt
 
 VOLUME [ "/config" ]
-WORKDIR ["/config" ]
+WORKDIR "/config"
 CMD ["tt++", "${CONFIG_FILE}"]
