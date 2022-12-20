@@ -2,7 +2,7 @@
 
 if [ "${TARGETARCH}" == "arm64" ]; then S6_ARCH="aarch64"; fi
 
-echo "Downloading files for $S6_ARCH"
+echo "Downloading files for $S6_ARCH v${S6_OVERLAY_VERSION}"
 cd /tmp
 
 curl -O -J https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz
