@@ -1,8 +1,10 @@
-FROM alpine:3.9
-MAINTAINER smee@squeee.com
-RUN apk add --no-cache g++ make zlib-dev pcre-dev gnutls-dev
-RUN wget -O /tmp/tintin.tar.gz 'http://sourceforge.net/projects/tintin/files/TinTin%2B%2B%20Source%20Code/2.01/tintin-2.01.7.tar.gz/download' \
+FROM faliarin/alpine-core:latest
+LABEL maintainer "dstritzel <dstritzel@users.noreply.github.com>"
+
+RUN apk add --no-cache wget build-base zlib-dev gnutls-dev pcre-dev make
+RUN wget -L -O /tmp/tintin.tar.gz 'https://github.com/scandum/tintin/releases/download/2.02.20/tintin-2.02.20.tar.gz' \
     && cd /tmp \
     && tar -xf tintin.tar.gz \
     && cd tt/src && ./configure && make && make install && cd /tmp && rm -rf tintin.tar.gz tt
-ENTRYPOINT ["tt++"]
+CMD ["tt++"]
+
