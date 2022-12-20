@@ -1,4 +1,4 @@
-# VIRTVERSION 0
+# VIRTVERSION 1
 FROM ubuntu:latest
 LABEL maintainer="github.com/dstritzel"
 ARG S6_ARCH=x86_64 \
