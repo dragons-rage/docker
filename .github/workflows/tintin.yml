@@ -1,11 +1,11 @@
-name: build-alpine-core
+name: build-tintin
 run-name: ${{ github.actor }} kicked off a build.
 on:
   push:
     branches:
     - 'master'
     paths:
-    - 'alpine-core/**'
+    - 'tintin/**'
     
 
 jobs:
