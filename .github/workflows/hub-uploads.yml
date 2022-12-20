@@ -33,17 +33,23 @@ jobs:
 
       - name: Application Version
         id: version
-        uses: paulhatch/semantic-version@v4
+        uses: paulhatch/semantic-version@v5
         with:
           change_path: "ubuntu-core"
+          namespace: "ubuntu-core"
 
-      - name: Excho Version
+      - name: Echo Version
         run: echo "Version would be ${{ steps.version.outputs.version }}"
 
-      - name: Build and push general
+      - name: Build and Push Docker
         uses: docker/build-push-action@v3
         with:
           platforms: linux/amd64,linux/arm64
           context: "{{defaultContext}}:ubuntu-core"
           push: false
           tags: faliarin/ubuntu-core:latest,faliarin/ubuntu-core:${{ steps.version.outputs.version }}
+
+      - name: Tag Release (vX.Y.Z)
+        run: |
+          git tag ${{ steps.version.outputs.version_tag }}
+          git push origin ${{ steps.version.outputs.version_tag }}
