@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 
-if [ "${TARGETARCH}" == "arm64" ] then; S6_ARCH="aarch64"; fi
+if [ "${TARGETARCH}" == "arm64" ]; then S6_ARCH="aarch64"; fi
 
 echo "Downloading files"
 cd /tmp
