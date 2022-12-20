@@ -24,6 +24,17 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # https://github.com/marketplace/actions/auto-increment-semver-action
+      - name: Auto Increment Semver Action
+        uses: MCKanpolat/auto-semver-action@1.0.5
+        id: versioning
+        with:
+          releaseType: premajor 
+          incrementPerCommit: false
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      # https://github.com/marketplace/actions/build-and-push-docker-images
       -
         name: Build and push general
         uses: docker/build-push-action@v3
@@ -31,5 +42,5 @@ jobs:
           platforms: linux/amd64,linux/arm64
           context: "{{defaultContext}}:ubuntu-core"
           push: true
-          tags: faliarin/ubuntu-core:latest
+          tags: faliarin/ubuntu-core:latest,faliarin/ubuntu-core:${{ steps.versioning.outputs.version }}
 
