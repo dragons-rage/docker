@@ -4,6 +4,7 @@ on:
   push:
     branches:
     - 'master'
+    - 'test-branch'
     paths:
     - 'ubuntu-core/**'
     - '.github/workflows/hub-uploads.yml'
@@ -35,7 +36,6 @@ jobs:
         uses: paulhatch/semantic-version@v4
         with:
           change_path: "ubuntu-core"
-        run: echo "Version would be ${{ steps.version.outputs.version }}"
 
       - name: Build and push general
         run: echo "Version would be ${{ steps.version.outputs.version }}"
