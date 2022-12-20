@@ -1,4 +1,4 @@
-FROM dstritzel/ubuntu-core:latest
+FROM faliarin/ubuntu-core:latest
 LABEL maintainer "dstritzel <dstritzel@users.noreply.github.com>"
 
 ENV DIRECTORY_CONFIG=/config \
@@ -15,6 +15,8 @@ RUN echo "**** install gs-server ****" && \
  echo "**** cleanup ****" && \
  rm -rf /tmp/*
 
+ RUN echo "**** set extra permissions ****" && \
+    chmod +x /etc/services.d/goodsync/run
 
 # [PORTS]
 # WebUI Port

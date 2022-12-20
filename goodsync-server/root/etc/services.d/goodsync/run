@@ -1,7 +1,20 @@
-#!/bin/env sh
+#!/command/with-contenv bash
 if [ -f "/config/.initialized" ]; then
     echo "Config already initialized"
+
 else
+    if [ -z "${GS_USER_SECRET}" ] && [ -z "${GS_PASS_SECRET}" ]; then
+        echo "Checking for Username and Password in environment"
+    
+        if [ -z "${GS_USERNAME}" ] || [ -z "${GS_PASSWORD}" ]; then
+            echo "Admin username and password must be set"
+            exit 1
+        fi
+    else
+        echo "Setting admin username and password ${GS_USER_SECRET} ${GS_PASS_SECRET}"
+        ADMIN_USERNAME=$(cat /run/secrets/${GS_USER_SECRET})
+        ADMIN_PASSWORD=$(cat /run/secrets/${GS_PASS_SECRET})
+    fi
     echo "Initializing config"
     /usr/bin/gs-server /profile=${DIRECTORY_CONFIG:=/config} /set-admin="${ADMIN_USERNAME}:${ADMIN_PASSWORD}" /console &
     PID=$!
@@ -10,7 +23,7 @@ else
     # Enable remote access
     sed -i 's/WebUiLocalOnly = Yes/WebUiLocalOnly = No/' /config/settings.tix
     touch /config/.initialized
-    sleep 3
+    sleep 30
 fi
 
 /usr/bin/gs-server /profile=${DIRECTORY_CONFIG:=/config} /console

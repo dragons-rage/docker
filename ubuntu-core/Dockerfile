@@ -9,8 +9,11 @@ RUN apt-get update && apt-get install -y \
 
 ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz /tmp
 ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-${ARCH}.tar.xz /tmp
+ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-arch.tar.xz /tmp
+
 RUN tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz && \
-    tar -C / -Jxpf /tmp/s6-overlay-${ARCH}.tar.xz \
-    && rm -rf /tmp/*
+    tar -C / -Jxpf /tmp/s6-overlay-symlinks-arch.tar.xz && \
+    tar -C / -Jxpf /tmp/s6-overlay-${ARCH}.tar.xz && \
+    rm -rf /tmp/*
 
 ENTRYPOINT ["/init"]
