@@ -32,12 +32,11 @@ jobs:
 
       - name: Application Version
         id: version
-        uses: paulhatch/semantic-version@v4.0.2
+        uses: paulhatch/semantic-version@v4
         with:
           change_path: "ubuntu-core"
 
-      -
-        name: Build and push general
+      - name: Build and push general
         run: echo "Version would be "${{ steps.version.outputs.version }}"
       # https://github.com/marketplace/actions/build-and-push-docker-images
       # -
