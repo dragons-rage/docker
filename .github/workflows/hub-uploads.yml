@@ -31,9 +31,9 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Application Version
+      - name: Git Semantic Version
+        uses: PaulHatch/semantic-version@v5.0.0-beta2
         id: version
-        uses: paulhatch/semantic-version@v5
         with:
           change_path: "ubuntu-core"
           namespace: "ubuntu-core"
