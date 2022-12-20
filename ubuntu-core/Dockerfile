@@ -8,17 +8,11 @@ ARG S6_ARCH=x86_64 \
 RUN  apt-get update \
   && apt-get install -y \
      xz-utils \
+     curl \
   && rm -rf /var/lib/apt/lists/*
-
-ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz /tmp
-ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-${S6_ARCH}.tar.xz /tmp
-ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-arch.tar.xz /tmp
-
-
-RUN echo "*** Building ${TARGETOS} with ${TARGETARCH} with ${ARCH} ***" && \
-    tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz && \
-    tar -C / -Jxpf /tmp/s6-overlay-symlinks-arch.tar.xz && \
-    tar -C / -Jxpf /tmp/s6-overlay-${S6_ARCH}.tar.xz && \
-    rm -rf /tmp/*
+ADD build.sh /tmp/build.sh
+RUN echo "*** Run Build Script***" && \
+    chmod +x /tmp/build.sh && \
+    /tmp/build.sh
 
 ENTRYPOINT ["/init"]
