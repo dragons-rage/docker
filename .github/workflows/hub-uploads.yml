@@ -38,7 +38,7 @@ jobs:
         with:
           platforms: linux/arm64
           context: "{{defaultContext}}:ubuntu-core"
-          build-args:
-          - S6_ARCH=aarch64
+          build-args: |
+            S6_ARCH=aarch64
           push: true
           tags: faliarin/ubuntu-core:latest
