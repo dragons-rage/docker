@@ -13,4 +13,4 @@ RUN wget -L -O /tmp/tintin.tar.gz 'https://github.com/scandum/tintin/releases/do
 
 VOLUME [ "/config" ]
 WORKDIR "/config"
-CMD ["tt++", "${CONFIG_FILE}"]
+ENTRYPOINT [ "tt++", "${CONFIG_FILE}" ]
