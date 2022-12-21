@@ -6,6 +6,9 @@ on:
     - 'master'
     paths:
     - 'tintin/**'
+  pull_request:
+    branches:
+      - master
     
 
 jobs:
@@ -39,15 +42,26 @@ jobs:
       - name: Echo Version
         run: echo "Version would be ${{ steps.version.outputs.version }}"
 
-      - name: Build and Push Docker
+      - name: Build and Push Docker PR
+        if: github.event_name == 'pull_request'
+        uses: docker/build-push-action@v3
+        with:
+          platforms: linux/amd64,linux/arm64
+          context: "{{defaultContext}}:tintin"
+          push: false
+          tags: faliarin/tintin:latest,faliarin/tintin:${{ steps.version.outputs.version }}
+      
+      - name: Build and Push Docker Master Branch
+        if: github.event_name != 'pull_request'
         uses: docker/build-push-action@v3
         with:
           platforms: linux/amd64,linux/arm64
           context: "{{defaultContext}}:tintin"
           push: true
           tags: faliarin/tintin:latest,faliarin/tintin:${{ steps.version.outputs.version }}
-          
+
       - name: Docker Hub Description
+        if: github.event_name != 'pull_request'
         uses: peter-evans/dockerhub-description@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -56,6 +70,7 @@ jobs:
           readme-filepath: tintin/README.md
 
       - name: Tag Release (vX.Y.Z)
+        if: github.event_name != 'pull_request'
         run: |
           git tag ${{ steps.version.outputs.version_tag }}
           git push origin ${{ steps.version.outputs.version_tag }}
