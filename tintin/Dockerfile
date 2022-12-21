@@ -1,4 +1,4 @@
-# VIRTVER 0
+
 FROM faliarin/alpine-core:latest
 
 ENV CONFIG_FILE=run.tin
