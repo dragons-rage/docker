@@ -1,6 +1,6 @@
 FROM faliarin/alpine-core:latest
 
-ENV CONFIG_FILE=/config/run.tin
+ENV CONFIG_FILE=run.tin
 
 LABEL maintainer "dstritzel <dstritzel@users.noreply.github.com>"
 
@@ -13,4 +13,4 @@ RUN wget -L -O /tmp/tintin.tar.gz 'https://github.com/scandum/tintin/releases/do
 
 VOLUME [ "/config" ]
 WORKDIR "/config"
-CMD ["tt++", "${CONFIG_FILE}"]
+CMD ["tt++", "/config/${CONFIG_FILE}"]

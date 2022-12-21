@@ -1,1 +1,1 @@
-docker run -it --name tintin tintin
+docker run --rm -it --name tintin faliarin/tintin:latest
