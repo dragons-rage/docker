@@ -1,4 +1,4 @@
-FROM faliarin/alpine-core:latest
+FROM alpine:latest
 
 ENV CONFIG_FILE=run.tin
 
@@ -13,4 +13,4 @@ RUN wget -L -O /tmp/tintin.tar.gz 'https://github.com/scandum/tintin/releases/do
 
 VOLUME [ "/config" ]
 WORKDIR "/config"
-CMD ["tt++", "/config/${CONFIG_FILE}"]
+CMD ["tt++", "${CONFIG_FILE}"]
