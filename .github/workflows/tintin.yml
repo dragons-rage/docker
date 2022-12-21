@@ -1,5 +1,5 @@
 name: build-tintin
-run-name: ${{ github.actor }} kicked off a build.
+run-name: Tintin Build kicked off by ${{ github.actor }}
 on:
   push:
     branches:
