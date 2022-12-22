@@ -6,7 +6,11 @@ on:
     - 'master'
     paths:
     - 'ubuntu-core/**'
-    
+  pull_request:
+    branches:
+    - master
+    paths:
+    - 'ubuntu-core/**'    
 
 jobs:
   docker:
@@ -39,7 +43,8 @@ jobs:
       - name: Echo Version
         run: echo "Version would be ${{ steps.version.outputs.version }}"
 
-      - name: Build and Push Docker
+      - name: Build and Push Docker Master Branch
+        if: github.event_name != 'pull_request'
         uses: docker/build-push-action@v3
         with:
           platforms: linux/amd64,linux/arm64
@@ -47,7 +52,17 @@ jobs:
           push: true
           tags: faliarin/ubuntu-core:latest,faliarin/ubuntu-core:${{ steps.version.outputs.version }}
 
+      - name: Docker Hub Description
+        if: github.event_name != 'pull_request'
+        uses: peter-evans/dockerhub-description@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repository: faliarin/ubuntu-core
+          readme-filepath: ubuntu-core/README.md
+
       - name: Tag Release (vX.Y.Z)
+        if: github.event_name != 'pull_request'
         run: |
           git tag ${{ steps.version.outputs.version_tag }}
           git push origin ${{ steps.version.outputs.version_tag }}
