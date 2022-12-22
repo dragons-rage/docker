@@ -8,7 +8,9 @@ on:
     - 'goodsync/**'
   pull_request:
     branches:
-      - master
+    - master
+    paths:
+    - 'goodsync/**'
     
 
 jobs:
