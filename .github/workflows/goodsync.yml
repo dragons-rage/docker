@@ -1,16 +1,16 @@
-name: build-tintin
-run-name: Tintin Build kicked off by ${{ github.actor }}
+name: build-goodsync
+run-name: Goodsync Build kicked off by ${{ github.actor }}
 on:
   push:
     branches:
     - 'master'
     paths:
-    - 'tintin/**'
+    - 'goodsync/**'
   pull_request:
     branches:
-      - master
+    - master
     paths:
-    - 'tintin/**'
+    - 'goodsync/**'
     
 
 jobs:
@@ -38,8 +38,8 @@ jobs:
         uses: PaulHatch/semantic-version@v5.0.0-beta2
         id: version
         with:
-          change_path: "tintin"
-          namespace: "tintin"
+          change_path: "goodsync"
+          namespace: "goodsync"
 
       - name: Echo Version
         run: echo "Version would be ${{ steps.version.outputs.version }}"
@@ -48,19 +48,19 @@ jobs:
         if: github.event_name == 'pull_request'
         uses: docker/build-push-action@v3
         with:
-          platforms: linux/amd64,linux/arm64
-          context: "{{defaultContext}}:tintin"
+          platforms: linux/amd64
+          context: "{{defaultContext}}:goodsync"
           push: false
-          tags: faliarin/tintin:latest,faliarin/tintin:${{ steps.version.outputs.version }}
+          tags: faliarin/goodsync:latest,faliarin/goodsync:${{ steps.version.outputs.version }}
       
       - name: Build and Push Docker Master Branch
         if: github.event_name != 'pull_request'
         uses: docker/build-push-action@v3
         with:
-          platforms: linux/amd64,linux/arm64
-          context: "{{defaultContext}}:tintin"
+          platforms: linux/amd64
+          context: "{{defaultContext}}:goodsync"
           push: true
-          tags: faliarin/tintin:latest,faliarin/tintin:${{ steps.version.outputs.version }}
+          tags: faliarin/goodsync:latest,faliarin/goodsync:${{ steps.version.outputs.version }}
 
       - name: Docker Hub Description
         if: github.event_name != 'pull_request'
@@ -68,8 +68,8 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          repository: faliarin/tintin
-          readme-filepath: tintin/README.md
+          repository: faliarin/goodsync
+          readme-filepath: goodsync/README.md
 
       - name: Tag Release (vX.Y.Z)
         if: github.event_name != 'pull_request'
