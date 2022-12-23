@@ -1,5 +1,5 @@
 name: build-goodsync
-run-name: Goodsync Build kicked off by ${{ github.actor }}
+run-name: Goodsync - ${{ github.actor }} by ${{ github.event_name }} ${{ github.ref }}
 on:
   push:
     branches:
