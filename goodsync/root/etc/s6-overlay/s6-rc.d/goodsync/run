@@ -9,6 +9,9 @@ else
         if [ -z "${GS_USERNAME}" ] || [ -z "${GS_PASSWORD}" ]; then
             echo "Admin username and password must be set"
             exit 1
+        else
+            ADMIN_USERNAME=${GS_USERNAME}
+            ADMIN_PASSWORD=${GS_PASSWORD}
         fi
     else
         echo "Setting admin username and password ${GS_USER_SECRET}"
@@ -16,14 +19,11 @@ else
         ADMIN_PASSWORD=$(cat /run/secrets/${GS_PASS_SECRET})
     fi
     echo "Initializing config"
-    /usr/bin/gs-server /profile=${DIRECTORY_CONFIG:=/config} /set-admin="${ADMIN_USERNAME}:${ADMIN_PASSWORD}" /console &
-    PID=$!
-    sleep 10
-    kill $PID
+    /usr/bin/gs-server /profile=${DIRECTORY_CONFIG:=/config} /set-admin="${ADMIN_USERNAME}:${ADMIN_PASSWORD}" /console
     # Enable remote access
     sed -i 's/WebUiLocalOnly = Yes/WebUiLocalOnly = No/' /config/settings.tix
     touch /config/.initialized
-    sleep 30
+    sleep 15
 fi
 
 /usr/bin/gs-server /profile=${DIRECTORY_CONFIG:=/config} /console
