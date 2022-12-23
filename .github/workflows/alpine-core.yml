@@ -1,5 +1,5 @@
 name: build-alpine-core
-run-name: ${{ github.actor }} kicked off a build.
+run-name: Alpine Core - ${{ github.actor }} by ${{ github.event_name }} ${{ github.ref }}
 on:
   push:
     branches:
@@ -10,7 +10,7 @@ on:
     branches:
     - master
     paths:
-    - 'ubuntu-core/**'      
+    - 'alpine-core/**'      
 
 jobs:
   docker:

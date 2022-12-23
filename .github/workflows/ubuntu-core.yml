@@ -1,5 +1,5 @@
 name: build-ubuntu-core
-run-name: ${{ github.actor }} kicked off a build.
+run-name: Ubuntu Core - ${{ github.actor }} by ${{ github.event_name }} ${{ github.ref }}
 on:
   push:
     branches:
