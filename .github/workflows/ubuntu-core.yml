@@ -17,9 +17,10 @@ on:
     branches:
     - 'master'
     paths:
-    - 'ubuntu-core/Readme.md'
-    env:
-      README: true
+    - 'ubuntu-core/README.md'
+
+env:
+  README: true
 
 jobs:
   docker:
