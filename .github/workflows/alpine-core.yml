@@ -6,11 +6,13 @@ on:
     - 'master'
     paths:
     - 'alpine-core/**'
+    - '!alpine-core/README.md'
   pull_request:
     branches:
     - master
     paths:
-    - 'alpine-core/**'      
+    - 'alpine-core/**'
+    - '!alpine-core/README.md'
 
 jobs:
   docker:

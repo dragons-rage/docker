@@ -6,11 +6,13 @@ on:
     - 'master'
     paths:
     - 'tintin/**'
+    - '!tintin/README.md'
   pull_request:
     branches:
       - master
     paths:
     - 'tintin/**'
+    - '!tintin/README.md'
     
 
 jobs:

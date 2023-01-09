@@ -6,11 +6,13 @@ on:
     - 'master'
     paths:
     - 'ubuntu-core/**'
+    - '!ubuntu-core/README.md'   
   pull_request:
     branches:
     - master
     paths:
-    - 'ubuntu-core/**'    
+    - 'ubuntu-core/**' 
+    - '!ubuntu-core/README.md'   
 
 jobs:
   docker:

@@ -6,12 +6,13 @@ on:
     - 'master'
     paths:
     - 'goodsync/**'
+    - '!goodsync/README.md'
   pull_request:
     branches:
     - master
     paths:
     - 'goodsync/**'
-    
+    - '!goodsync/README.md'
 
 jobs:
   docker:
