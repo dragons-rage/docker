@@ -1,0 +1,63 @@
+name: update-readme-ubuntu-core
+run-name: Ubuntu Core - ${{ github.actor }} by ${{ github.event_name }} ${{ github.ref }}
+on:
+  push:
+    branches:
+    - 'master'
+    paths:
+    - '**/README.md'
+
+jobs:
+  docker:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            ubuntu:
+              - 'ubuntu-core/README.md'
+            goodsync:
+              - 'goodsync/README.md'
+            tintin:
+              - 'tintin/README.md'
+            alpine:
+              - 'alpine-core/README.md'
+
+      - name: ubuntu-core Docker Hub Description
+        if: ${{ steps.filter.outputs.ubuntu == 'true' }}
+        uses: peter-evans/dockerhub-description@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repository: faliarin/ubuntu-core
+          readme-filepath: ubuntu-core/README.md
+
+      - name: tintin Docker Hub Description
+        if: ${{ steps.filter.outputs.tintin == 'true' }}
+        uses: peter-evans/dockerhub-description@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repository: faliarin/tintin
+          readme-filepath: tintin/README.md
+
+      - name: goodsync Docker Hub Description
+        if: ${{ steps.filter.outputs.goodsync == 'true' }}
+        uses: peter-evans/dockerhub-description@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repository: faliarin/goodsync
+          readme-filepath: goodsync/README.md
+
+      - name: alpine Docker Hub Description
+        if: ${{ steps.filter.outputs.alpine == 'true' }}
+        uses: peter-evans/dockerhub-description@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repository: faliarin/alpine-core
+          readme-filepath: alpine-core/README.md

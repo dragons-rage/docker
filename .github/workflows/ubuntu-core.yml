@@ -52,15 +52,6 @@ jobs:
           push: true
           tags: faliarin/ubuntu-core:latest,faliarin/ubuntu-core:${{ steps.version.outputs.version }}
 
-      - name: Docker Hub Description
-        if: github.event_name != 'pull_request'
-        uses: peter-evans/dockerhub-description@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-          repository: faliarin/ubuntu-core
-          readme-filepath: ubuntu-core/README.md
-
       - name: Tag Release (vX.Y.Z)
         if: github.event_name != 'pull_request'
         run: |
