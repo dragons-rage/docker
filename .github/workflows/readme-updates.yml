@@ -1,4 +1,4 @@
-name: update-readme-in-docker-hub
+name: update-readme-ubuntu-core
 run-name: Ubuntu Core - ${{ github.actor }} by ${{ github.event_name }} ${{ github.ref }}
 on:
   push:
