@@ -1,6 +1,7 @@
 name: build-alpine-core
 run-name: Alpine Core - ${{ github.actor }} by ${{ github.event_name }} ${{ github.ref }}
 on:
+  workflow_dispatch:
   push:
     branches:
     - 'master'
