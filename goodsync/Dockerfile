@@ -1,3 +1,4 @@
+# Version: 12.1.3
 FROM faliarin/ubuntu-core:latest
 LABEL maintainer "dstritzel <dstritzel@users.noreply.github.com>"
 
