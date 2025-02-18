@@ -6,7 +6,7 @@ Docker Modules to assist in daily one off programs.
 |-----------|-------------|
 | alpine-core | Modified alpine core for any hub items used in this repo |
 | ubuntu-core | Modified ubuntu TLS for any Docker items used in this repo |
-| goodsync   | Docker Container for goodsync usage |
+| goodsync   | Docker Container for goodsync usage - Removed|
 | tintin      | A program that allows for connecting to MUDs (Text Based Multi User Dungeons) |
 
 

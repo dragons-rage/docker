@@ -9,7 +9,7 @@ on:
 
 jobs:
   docker:
-    runs-on: self-hosted
+    runs-on: ubuntu
     steps:
       - uses: actions/checkout@v2
 
@@ -19,8 +19,6 @@ jobs:
           filters: |
             ubuntu:
               - 'ubuntu-core/README.md'
-            goodsync:
-              - 'goodsync/README.md'
             tintin:
               - 'tintin/README.md'
             alpine:
@@ -43,15 +41,6 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           repository: faliarin/tintin
           readme-filepath: tintin/README.md
-
-      - name: goodsync Docker Hub Description
-        if: ${{ steps.filter.outputs.goodsync == 'true' }}
-        uses: peter-evans/dockerhub-description@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-          repository: faliarin/goodsync
-          readme-filepath: goodsync/README.md
 
       - name: alpine Docker Hub Description
         if: ${{ steps.filter.outputs.alpine == 'true' }}
