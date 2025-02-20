@@ -7,7 +7,7 @@ ARG S6_ARCH=x86_64 \
     TARGETARCH \
     TARGETOS
 
-ADD build.sh /tmp/build.sh
+COPY build.sh /tmp/build.sh
 
 RUN apk add --no-cache bash tar gzip xz curl
 
