@@ -1,4 +1,4 @@
-#!/bin/bash
+#!env bash
 
 if [ "${TARGETARCH}" == "arm64" ]; then S6_ARCH="aarch64"; fi
 
