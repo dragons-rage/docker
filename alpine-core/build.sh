@@ -13,3 +13,4 @@ tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz
 tar -C / -Jxpf /tmp/s6-overlay-symlinks-arch.tar.xz
 tar -C / -Jxpf /tmp/s6-overlay-${S6_ARCH}.tar.xz
 rm -rf /tmp/*
+
