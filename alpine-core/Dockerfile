@@ -12,7 +12,7 @@ COPY build.sh /tmp/build.sh
 RUN apk add --no-cache bash tar gzip xz curl
 
 RUN  cat /tmp/build.sh
-RUN cat /tmp/build.sh | /bin/bash
+RUN cat /tmp/build.sh | /bin/bash -x
 
 FROM alpine-build
 ENTRYPOINT ["/init"]
