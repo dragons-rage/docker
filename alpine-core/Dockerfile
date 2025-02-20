@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:latest as alpine-build
 
 LABEL maintainer "dstritzel <dstritzel@users.noreply.github.com>"
 
@@ -9,9 +9,12 @@ ARG S6_ARCH=x86_64 \
 
 ADD build.sh /tmp/build.sh
 
-RUN apk add --no-cache bash tar gzip xz curl && \
+RUN apk add --no-cache bash tar gzip xz curl
+
+RUN which bash && \
     echo "*** Run Build Script***" && \
     chmod +x /tmp/build.sh && \
-    /tmp/build.sh
+    /usr/bin/bash /tmp/build.sh
 
+FROM alpine-build
 ENTRYPOINT ["/init"]
