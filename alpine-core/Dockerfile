@@ -1,4 +1,4 @@
-FROM alpine:latest as alpine-build
+FROM alpine:latest AS alpine-build
 
 LABEL maintainer "dstritzel <dstritzel@users.noreply.github.com>"
 
@@ -12,7 +12,8 @@ COPY build.sh /tmp/build.sh
 RUN apk add --no-cache bash tar gzip xz curl
 
 RUN  cat /tmp/build.sh
-RUN  chmod a+x /tmp/*.sh && /tmp/build.sh
+RUN  "chmod a+x /tmp/*.sh"
+RUN /tmp/build.sh
 
 FROM alpine-build
 ENTRYPOINT ["/init"]
