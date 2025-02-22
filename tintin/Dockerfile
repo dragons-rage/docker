@@ -3,7 +3,7 @@ FROM faliarin/alpine-core:latest
 
 ENV CONFIG_FILE=run.tin
 
-LABEL maintainer "dstritzel <dstritzel@users.noreply.github.com>"
+LABEL maintainer="dstritzel <dstritzel@users.noreply.github.com>"
 
 RUN apk add --no-cache wget build-base zlib-dev gnutls-dev pcre-dev make
 RUN wget -L -O /tmp/tintin.tar.gz 'https://github.com/scandum/tintin/releases/download/2.02.42/tintin-2.02.42.tar.gz' \
