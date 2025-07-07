@@ -1,5 +1,5 @@
 
-FROM faliarin/alpine-core:latest
+FROM alpine:3
 
 ARG TINTIN_VERSION=2.02.51
 ENV CONFIG_FILE=run.tin
