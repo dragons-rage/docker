@@ -3,7 +3,7 @@ FROM alpine:latest AS alpine-build
 LABEL maintainer="dstritzel <dstritzel@users.noreply.github.com>"
 
 ARG S6_ARCH=x86_64 \
-    S6_OVERLAY_VERSION=3.2.0.2 \
+    S6_OVERLAY_VERSION=3.2.1.0 \
     TARGETARCH \
     TARGETOS
 

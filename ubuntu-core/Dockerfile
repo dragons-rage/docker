@@ -1,12 +1,12 @@
 # VIRTVERSION 2
-FROM ubuntu:latest AS ubuntu-build
+FROM ubuntu:24.04 AS ubuntu-build
 LABEL maintainer="github.com/dstritzel"
 ARG S6_ARCH=x86_64 \
-    S6_OVERLAY_VERSION=3.2.0.2 \
+    S6_OVERLAY_VERSION=3.2.1.0 \
     TARGETARCH \
     TARGETOS
 
-ADD build.sh /tmp/build.sh
+COPY build.sh /tmp/build.sh
 
 RUN apt-get update && \
     apt-get install -y xz-utils curl && \

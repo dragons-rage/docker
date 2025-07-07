@@ -1,7 +1,6 @@
 #!/bin/bash -x
 
-if [ "${TARGETARCH}" == "arm64" ]
-then 
+if [ "${TARGETARCH}" == "arm64" ]; then
   S6_ARCH="aarch64"
 fi
 

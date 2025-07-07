@@ -9,3 +9,10 @@ RPi4 is a 64-bit ARMv8 CPU and arm64 should be supported. I have not tested this
 ## Ubuntu Core
 
 Base ubuntu-core with custonizations for building and running containers. Ideally this will track the latest LTS release of Ubuntu docker upstream, but for I will manually update this as needed.
+
+## Upstream Links
+
+This section has links to used components of core. So we can update versions easier.
+
+* [S6 Overlay](https://github.com/just-containers/s6-overlay)
+
