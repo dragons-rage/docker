@@ -15,5 +15,5 @@ RUN echo "*** Run Build Script***" && \
     chmod a+x /tmp/build.sh && \
     /tmp/build.sh
 
-FROM alpine-build
+#FROM alpine-build
 ENTRYPOINT ["/init"]
