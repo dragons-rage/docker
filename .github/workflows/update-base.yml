@@ -36,7 +36,7 @@ jobs:
         id: ubuntucoreupdatecheck
         uses: lucacome/docker-image-update-checker@v2
         with:
-          base-image: ubtuntu:24.04
+          base-image: ubuntu:24.04
           image: faliarin/ubuntu-core
           platforms: linux/amd64,linux/arm64
 
