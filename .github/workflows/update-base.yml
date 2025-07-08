@@ -4,7 +4,8 @@ run-name: Regular base updates
 on:
   workflow_dispatch:
   schedule:
-    - cron: "22 */4 * *"
+    - cron: "22 */4 * * *"
+
 jobs:
   build:
     runs-on: ubuntu-latest
