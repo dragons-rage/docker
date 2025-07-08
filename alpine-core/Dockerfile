@@ -1,4 +1,4 @@
-FROM alpine:latest AS alpine-build
+FROM alpine:3 AS alpine-build
 
 LABEL maintainer="dstritzel <dstritzel@users.noreply.github.com>"
 
@@ -15,5 +15,5 @@ RUN echo "*** Run Build Script***" && \
     chmod a+x /tmp/build.sh && \
     /tmp/build.sh
 
-FROM alpine-build
+#FROM alpine-build
 ENTRYPOINT ["/init"]
