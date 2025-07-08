@@ -23,7 +23,8 @@ jobs:
       - name: Execute Alpine Core Update
         if: steps.alpinecoreupdatecheck.output.needs-updating == 'true'
         uses: benc-uk/workflow-dispatch@v1
-        workflow: alpine-core.yml
+        with:
+          workflow: alpine-core.yml
 
       - name: Ubuntu Core Base Update
         id: ubuntucoreupdatecheck
@@ -36,7 +37,8 @@ jobs:
       - name: Execute Ubuntu Core Update
         if: steps.ubuntucoreupdatecheck.output.needs-updating == 'true'
         uses: benc-uk/workflow-dispatch@v1
-        workflow: ubuntu-core.yml
+        with:
+          workflow: ubuntu-core.yml
 
       - name: Tintin base image update
         id: tintinupdatecheck
@@ -49,5 +51,6 @@ jobs:
       - name: Execute Tintin Update
         if: steps.tintinupdatecheck.output.needs-updating == 'true'
         uses: benc-uk/workflow-dispatch@v1
-        workflow: tintin.yml
+        with:
+          workflow: tintin.yml
 
