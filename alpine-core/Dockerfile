@@ -1,4 +1,4 @@
-FROM alpine:latest AS alpine-build
+FROM alpine:3 AS alpine-build
 
 LABEL maintainer="dstritzel <dstritzel@users.noreply.github.com>"
 
