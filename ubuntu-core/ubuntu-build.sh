@@ -9,7 +9,8 @@ fi
 
 # Ubuntu Specific Packages
 apt-get update
-apt-get install -y xz-utils curl
+apt-get upgrade -y
+apt-get install -y xz-utils curl wget
 rm -rf /var/lib/apt/lists/*
 
 echo "Downloading files for $S6_ARCH ${S6_OVERLAY_VERSION}"

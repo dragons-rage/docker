@@ -8,7 +8,7 @@ if [ "${TARGETARCH}" == "arm64" ]; then
 fi
 
 apk update && apk upgrade
-apk add --no-cache bash tar gzip xz curl
+apk add --no-cache bash tar gzip xz curl wget
 
 echo "Downloading files for $S6_ARCH ${S6_OVERLAY_VERSION}"
 cd /tmp
