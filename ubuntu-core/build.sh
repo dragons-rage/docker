@@ -4,6 +4,11 @@ if [ "${TARGETARCH}" == "arm64" ]; then
   S6_ARCH="aarch64"
 fi
 
+# Ubuntu Specific Packages
+apt-get update
+apt-get install -y xz-utils curl
+rm -rf /var/lib/apt/lists/*
+
 echo "Downloading files for $S6_ARCH v${S6_OVERLAY_VERSION}"
 cd /tmp
 curl -O -L https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz

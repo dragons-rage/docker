@@ -9,8 +9,6 @@ ARG S6_ARCH=x86_64 \
 
 COPY build.sh /tmp/build.sh
 
-RUN apk add --no-cache bash tar gzip xz curl
-
 RUN echo "*** Run Build Script***" && \
     chmod a+x /tmp/build.sh && \
     /tmp/build.sh

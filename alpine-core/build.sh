@@ -1,9 +1,11 @@
 #!/bin/bash -x
 
-if [ "${TARGETARCH}" == "arm64" ]
-then 
+if [ "${TARGETARCH}" == "arm64" ]; then
   S6_ARCH="aarch64"
 fi
+
+apk update && apk upgrade
+apk add --no-cache bash tar gzip xz curl
 
 echo "Downloading files for $S6_ARCH v${S6_OVERLAY_VERSION}"
 cd /tmp
@@ -15,4 +17,3 @@ tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz
 tar -C / -Jxpf /tmp/s6-overlay-symlinks-arch.tar.xz
 tar -C / -Jxpf /tmp/s6-overlay-${S6_ARCH}.tar.xz
 rm -rf /tmp/*
-
