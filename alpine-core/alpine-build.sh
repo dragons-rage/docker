@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/sh -x
 
 S6_ARCH=x86_64
 S6_OVERLAY_VERSION=latest
