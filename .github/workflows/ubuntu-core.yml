@@ -54,7 +54,9 @@ jobs:
           context: "{{defaultContext}}:ubuntu-core"
           push: true
           tags: faliarin/ubuntu-core:latest,faliarin/ubuntu-core:${{ steps.version.outputs.version }}
-
+          provenance: mode=max
+          sbom: true
+          
       - name: Tag Release (vX.Y.Z)
         if: github.event_name != 'pull_request'
         run: |
