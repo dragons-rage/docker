@@ -2,16 +2,12 @@ FROM alpine:3 AS alpine-build
 
 LABEL maintainer="dstritzel <dstritzel@users.noreply.github.com>"
 
-ARG S6_ARCH=x86_64 \
-    S6_OVERLAY_VERSION=3.2.1.0 \
-    TARGETARCH \
+ARG TARGETARCH \
     TARGETOS
 
-COPY build.sh /tmp/build.sh
+COPY alpine-build.sh /tmp/alpine-build.sh
 
-RUN echo "*** Run Build Script***" && \
-    chmod a+x /tmp/build.sh && \
-    /tmp/build.sh
+RUN /tmp/alpine-build.sh /tmp/alpine-build.sh
 
 #FROM alpine-build
 ENTRYPOINT ["/init"]
