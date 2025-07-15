@@ -6,6 +6,7 @@ ARG TINTIN_VERSION=2.02.51
 ENV CONFIG_FILE=run.tin
 
 COPY tintin-build.sh /tmp/
+
 RUN /tmp/tintin-build.sh && rm -f /tmp/tintin-build.sh
 USER tintin
 VOLUME [ "/config" ]
