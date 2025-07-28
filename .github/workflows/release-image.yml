@@ -37,13 +37,15 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           email: automation@dragons-rage.com
           name: Dragon's Rage Automation
-          message: Incrementing ${{ github.event.inputs.project }} with ${{ github.event.inputs.increment }} version.
+          message: Incrementing ${{ github.event.inputs.project }} with (${{ github.event.inputs.increment }}) version.
 
       - name: Git Semantic Version
         uses: PaulHatch/semantic-version@v5.4.0
         id: version
         with:
-          version_type: ${{ github.event.inputs.increment }}
+          major_pattern: "(major)"
+          minor_pattern: "(minor)"
+          bump_each_commit_patch_pattern: "(patch)"
           change_path: "${{ github.event.inputs.project }}"
           namespace: "${{ github.event.inputs.project }}"
 
