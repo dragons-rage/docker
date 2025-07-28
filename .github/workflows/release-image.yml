@@ -33,8 +33,8 @@ jobs:
 
       - name: Create Empty Commit
         run: |
-          git config user.email "automation@dragons-rage.com"
-          git config user.name "Dragon's Rage Automation"
+          git config user.email ""dstritzel@user.noreply.github.com
+          git config user.name "dstritzel"
           git commit --allow-empty -m "Incrementing ${{ github.event.inputs.project }} with (${{ github.event.inputs.increment }}) version."
 
       - name: Push Empty Commit
