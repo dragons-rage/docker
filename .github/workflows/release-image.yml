@@ -31,13 +31,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Create Release Commit
-        uses: velocibear/create-empty-commit@v1.0.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          email: automation@dragons-rage.com
-          name: Dragon's Rage Automation
-          message: Incrementing ${{ github.event.inputs.project }} with (${{ github.event.inputs.increment }}) version.
+      - name: Create Empty Commit
+        run: |
+          git config user.email "automation@dragons-rage.com"
+          git config user.name "Dragon's Rage Automation"
+          git commit --allow-empty -m "Incrementing ${{ github.event.inputs.project }} with (${{ github.event.inputs.increment }}) version."
 
       - name: Push Empty Commit
         run: git push origin master # Change 'main' to your branch name
