@@ -3,15 +3,17 @@ run-name: Alpine Core - ${{ github.actor }} by ${{ github.event_name }} ${{ gith
 on:
   workflow_dispatch:
   push:
-    tags:
-      - "v*-alpine-core"
-  # pull_request:
-  #   branches:
-  #     - master
-  #   paths:
-  #     - "alpine-core/**"
-  #     - "!alpine-core/README.md"
-
+    branches:
+      - "master"
+    paths:
+      - "alpine-core/**"
+      - "!alpine-core/README.md"
+  pull_request:
+    branches:
+      - master
+    paths:
+      - "alpine-core/**"
+      - "!alpine-core/README.md"
 jobs:
   docker:
     runs-on: ubuntu-latest
@@ -37,7 +39,6 @@ jobs:
         uses: PaulHatch/semantic-version@v5.4.0
         id: version
         with:
-          version_type: none
           change_path: "alpine-core"
           namespace: "alpine-core"
 
@@ -54,9 +55,9 @@ jobs:
           provenance: mode=max
           sbom: true
 
-      # # Instead of tagging on merge, we are tagging on release or manually
-      # - name: Tag Release (vX.Y.Z)
-      #   if: github.event_name != 'pull_request'
-      #   run: |
-      #     git tag ${{ steps.version.outputs.version_tag }}
-      #     git push origin ${{ steps.version.outputs.version_tag }}
+      # Instead of tagging on merge, we are tagging on release or manually
+      - name: Tag Release (vX.Y.Z)
+        if: github.event_name != 'pull_request' && ${{ steps.version.outputs.changed }}
+        run: |
+          git tag ${{ steps.version.outputs.version_tag }}
+          git push origin ${{ steps.version.outputs.version_tag }}
