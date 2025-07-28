@@ -2,7 +2,7 @@ name: Deploy new release
 
 on:
   workflow_dispatch:
-    input:
+    inputs:
       project:
         type: choice
         description: One of the docker projects from list.
