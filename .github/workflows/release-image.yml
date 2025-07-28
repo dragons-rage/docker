@@ -49,7 +49,7 @@ jobs:
         with:
           major_pattern: "(major)"
           minor_pattern: "(minor)"
-          bump_each_commit_patch_pattern: "(patch)"
+          bump_each_commit: true
           change_path: "${{ github.event.inputs.project }}"
           namespace: "${{ github.event.inputs.project }}"
 
