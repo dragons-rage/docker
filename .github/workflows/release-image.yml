@@ -38,6 +38,7 @@ jobs:
           version_type: ${{ github.event.inputs.increment }}
           change_path: "${{ github.event.inputs.project }}"
           namespace: "${{ github.event.inputs.project }}"
+          bump_each_commit: true
 
       # Instead of tagging on merge, we are tagging on release or manually
       - name: Tag Release (vX.Y.Z)
