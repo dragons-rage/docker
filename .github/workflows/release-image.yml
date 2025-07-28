@@ -31,6 +31,14 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Create Release Commit
+        uses: velocibear/create-empty-commit@v1.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          email: automation@dragons-rage.com
+          name: Dragon's Rage Automation
+          message: Incrementing ${{ github.event.inputs.project }} with ${{ github.event.inputs.increment }} version.
+
       - name: Git Semantic Version
         uses: PaulHatch/semantic-version@v5.4.0
         id: version
@@ -38,10 +46,10 @@ jobs:
           version_type: ${{ github.event.inputs.increment }}
           change_path: "${{ github.event.inputs.project }}"
           namespace: "${{ github.event.inputs.project }}"
-          bump_each_commit: true
 
       # Instead of tagging on merge, we are tagging on release or manually
       - name: Tag Release (vX.Y.Z)
+        if: ${{ ! steps.version.outputs.changed }}
         run: |
           git tag ${{ steps.version.outputs.version_tag }}
           git push origin ${{ steps.version.outputs.version_tag }}
