@@ -27,20 +27,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          token: ${{ secrets.GENERAL_PAT }}
 
       - name: Create Empty Commit
         run: |
-          git config user.email ""dstritzel@user.noreply.github.com
+          git config user.email "dstritzel@user.noreply.github.com"
           git config user.name "dstritzel"
           git commit --allow-empty -m "Incrementing ${{ github.event.inputs.project }} with (${{ github.event.inputs.increment }}) version."
 
       - name: Push Empty Commit
         run: git push origin master # Change 'main' to your branch name
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GENERAL_PAT }}
 
       - name: Git Semantic Version
         uses: PaulHatch/semantic-version@v5.4.0
