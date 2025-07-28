@@ -39,6 +39,11 @@ jobs:
           name: Dragon's Rage Automation
           message: Incrementing ${{ github.event.inputs.project }} with (${{ github.event.inputs.increment }}) version.
 
+      - name: Push Empty Commit
+        run: git push origin master # Change 'main' to your branch name
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Git Semantic Version
         uses: PaulHatch/semantic-version@v5.4.0
         id: version
