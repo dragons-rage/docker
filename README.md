@@ -5,9 +5,12 @@ Docker Modules to assist in daily one off programs.
 ## Update
 
 I am moving each container to a separate repository. This will allow me to use
-github runner for the entire org and keep ci/ci and versioning more simple. Go
-over to [https://github.com/dragons-rage/](https://github.com/dragons-rage/) for
-a list of repos. I will update the links here when transferred.
+github runner for the entire org and keep ci/ci and versioning more simple.
+
+New Locations:
+[tintin++ for docker](https://github.com/dragons-rage/docker-tintin/)
+[ubuntu-core](https://github.com/dragons-rage/ubuntu-core)
+[alpine-core](https://github.com/dragons-rage/alpine-core)
 
 ## Programs
 
