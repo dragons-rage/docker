@@ -8,9 +8,10 @@ I am moving each container to a separate repository. This will allow me to use
 github runner for the entire org and keep ci/ci and versioning more simple.
 
 New Locations:
-[tintin++ for docker](https://github.com/dragons-rage/docker-tintin/)
-[ubuntu-core](https://github.com/dragons-rage/ubuntu-core)
-[alpine-core](https://github.com/dragons-rage/alpine-core)
+
+- [tintin++ for docker](https://github.com/dragons-rage/docker-tintin/)
+- [ubuntu-core](https://github.com/dragons-rage/ubuntu-core)
+- [alpine-core](https://github.com/dragons-rage/alpine-core)
 
 ## Programs
 
