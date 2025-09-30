@@ -63,12 +63,13 @@ jobs:
           echo "app_version=$app_version" >> $GITHUB_OUTPUT
           echo "build_version=$NEW_BUILD_VERSION" >> $GITHUB_OUTPUT
 
-      - name: Tag Release (vX.Y.Z)
-        if: ${{ (github.event_name != 'pull_request') }}
-        run: |
-          git add cloud/etcd/VERSION
-          git commit -m "Bump version to ${{ steps.get_version.outputs.version }}"
-          git push origin main
+      - uses: stefanzweifel/git-auto-commit-action@v5
+      # - name: Tag Release (vX.Y.Z)
+      #   if: ${{ (github.event_name != 'pull_request') }}
+      #   run: |
+      #     git add cloud/etcd/VERSION
+      #     git commit -m "Bump version to ${{ steps.get_version.outputs.version }}"
+      #     git push origin main
 
       - name: Echo Version
         run: echo "Version would be ${{ steps.get_version.outputs.version }}"
