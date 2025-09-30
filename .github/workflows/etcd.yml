@@ -1,4 +1,4 @@
-name: Build and Deploy Container
+name: Build and Deploy ETCD
 run-name: ${{ github.repository }} - ${{ github.actor }} by ${{ github.event_name }} ${{ github.ref }}
 
 env:
