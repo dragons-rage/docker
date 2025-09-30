@@ -14,6 +14,10 @@ etcd is a distributed, reliable key-value store for the most critical data of a 
 - Built-in health check monitoring
 - Volume declaration for data persistence
 
+## Versioning
+
+The image is built using the version from etcd followed by a dash and the build number. You can customize the version using build arguments.
+
 ## Build Arguments
 
 The following build arguments can be customized when building the image:
