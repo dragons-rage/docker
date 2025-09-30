@@ -1,0 +1,19 @@
+# docker
+
+Dockerfiles that are for minor services I need. With certain companies moving to "secure images"
+it is nessecary to completely remove them from any workflow. This is just a bid for money while
+using community sourced software.
+
+## Update
+
+Repurposing an old repo I used for images. No automatic builds yet.
+
+## Building
+
+You can build from the github repo sub directories by specifing the branch and directory
+
+Example:
+
+```bash
+git build -t etcd https://github.com/dstritzel/docker.git\#cloud/etcd/
+```

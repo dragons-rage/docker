@@ -1,0 +1,218 @@
+# etcd Docker Image
+
+This Dockerfile builds a custom etcd container image from source code using a multi-stage build process.
+
+## Overview
+
+etcd is a distributed, reliable key-value store for the most critical data of a distributed system. This Docker image compiles etcd from source and packages it in a lightweight Alpine Linux container.
+
+**Key Features:**
+- Multi-stage build for optimized image size
+- Runs as non-root user for enhanced security
+- Pre-configured data directory with proper permissions
+- Includes all etcd binaries (etcd, etcdctl, etcdutl)
+- Built-in health check monitoring
+- Volume declaration for data persistence
+
+## Build Arguments
+
+The following build arguments can be customized when building the image:
+
+| Argument | Default | Description |
+|----------|---------|-------------|
+| `GO_VERSION` | `1.23.9` | Go version to download and use for compilation |
+| `ETCD_VERSION` | `3.6.5` | etcd version to download and compile |
+| `TARGETARCH` | (auto-detected) | Target architecture for Go compilation (e.g., amd64, arm64) |
+
+## Building the Image
+
+### Default build:
+```bash
+docker build -t etcd:latest .
+```
+
+### Custom etcd version:
+```bash
+docker build --build-arg ETCD_VERSION=3.5.9 -t etcd:3.5.9 .
+```
+
+### Custom Go version:
+```bash
+docker build --build-arg GO_VERSION=1.22.5 -t etcd:go1.22 .
+```
+
+## Exposed Ports
+
+| Port | Description |
+|------|-------------|
+| `2379` | Client communication port |
+| `2380` | Peer communication port |
+
+## Available Binaries
+
+The image includes the following etcd binaries:
+
+- **`etcd`** - The main etcd server binary (default entrypoint)
+- **`etcdctl`** - Command-line client for etcd
+- **`etcdutl`** - Utility for etcd maintenance operations
+
+## Usage Examples
+
+### Single Node etcd Server
+
+```bash
+docker run -d \
+  --name etcd \
+  -p 2379:2379 \
+  -p 2380:2380 \
+  etcd:latest \
+  etcd \
+  --name s1 \
+  --data-dir /data/etcd \
+  --listen-client-urls http://0.0.0.0:2379 \
+  --advertise-client-urls http://0.0.0.0:2379 \
+  --listen-peer-urls http://0.0.0.0:2380 \
+  --initial-advertise-peer-urls http://0.0.0.0:2380 \
+  --initial-cluster s1=http://0.0.0.0:2380 \
+  --initial-cluster-token tkn \
+  --initial-cluster-state new \
+  --log-level info \
+  --logger zap \
+  --log-outputs stderr
+```
+
+### Using etcdctl
+
+```bash
+# Run etcdctl commands
+docker run --rm -it \
+  --network container:etcd \
+  etcd:latest \
+  etcdctl --endpoints=http://localhost:2379 member list
+
+# Set a key-value pair
+docker run --rm -it \
+  --network container:etcd \
+  etcd:latest \
+  etcdctl --endpoints=http://localhost:2379 put mykey myvalue
+
+# Get a value
+docker run --rm -it \
+  --network container:etcd \
+  etcd:latest \
+  etcdctl --endpoints=http://localhost:2379 get mykey
+```
+
+### Using etcdutl
+
+```bash
+# Backup etcd data
+docker run --rm -it \
+  -v etcd-data:/data/etcd \
+  -v $(pwd):/backup \
+  etcd:latest \
+  etcdutl snapshot save /backup/etcd-snapshot.db --data-dir /data/etcd
+```
+
+## Environment Variables
+
+This Dockerfile sets the following default environment variables:
+
+| Variable | Default Value | Description |
+|----------|---------------|-------------|
+| `ETCD_DATA_DIR` | `/data/etcd` | Path to the data directory |
+| `ETCD_ENABLE_V2` | `"true"` | Enable etcd v2 API compatibility |
+| `ALLOW_NONE_AUTHENTICATION` | `"yes"` | Allow connections without authentication |
+| `ETCD_ADVERTISE_CLIENT_URLS` | `"http://etcd:2379"` | URLs to advertise to clients |
+| `ETCD_LISTEN_CLIENT_URLS` | `"http://0.0.0.0:2379"` | URLs to listen on for client traffic |
+
+
+etcd also supports numerous other environment variables for configuration:
+
+### Common etcd Environment Variables
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `ETCD_NAME` | Human-readable name for this member | `node1` |
+| `ETCD_DATA_DIR` | Path to the data directory | `/data/etcd` |
+| `ETCD_LISTEN_CLIENT_URLS` | List of URLs to listen on for client traffic | `http://0.0.0.0:2379` |
+| `ETCD_ADVERTISE_CLIENT_URLS` | List of this member's client URLs to advertise to the public | `http://localhost:2379` |
+| `ETCD_LISTEN_PEER_URLS` | List of URLs to listen on for peer traffic | `http://0.0.0.0:2380` |
+| `ETCD_INITIAL_ADVERTISE_PEER_URLS` | List of this member's peer URLs to advertise to the rest of the cluster | `http://localhost:2380` |
+| `ETCD_INITIAL_CLUSTER` | Initial cluster configuration for bootstrapping | `node1=http://localhost:2380` |
+| `ETCD_INITIAL_CLUSTER_STATE` | Initial cluster state | `new` or `existing` |
+| `ETCD_INITIAL_CLUSTER_TOKEN` | Initial cluster token for the etcd cluster during bootstrap | `etcd-cluster-1` |
+
+### Using Environment Variables
+
+```bash
+# Override default environment variables
+docker run -d \
+  --name etcd \
+  -p 2379:2379 \
+  -p 2380:2380 \
+  -e ETCD_NAME=node1 \
+  -e ETCD_DATA_DIR=/data/etcd \
+  -e ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379 \
+  -e ETCD_ADVERTISE_CLIENT_URLS=http://localhost:2379 \
+  -e ETCD_LISTEN_PEER_URLS=http://0.0.0.0:2380 \
+  -e ETCD_INITIAL_ADVERTISE_PEER_URLS=http://localhost:2380 \
+  -e ETCD_INITIAL_CLUSTER=node1=http://localhost:2380 \
+  -e ETCD_INITIAL_CLUSTER_STATE=new \
+  -e ETCD_INITIAL_CLUSTER_TOKEN=etcd-cluster-1 \
+  etcd:latest
+```
+
+## Data Persistence
+
+To persist etcd data, mount a volume to the data directory:
+
+```bash
+docker run -d \
+  --name etcd \
+  -p 2379:2379 \
+  -p 2380:2380 \
+  -v etcd-data:/data/etcd \
+  etcd:latest \
+  etcd --data-dir=/data/etcd [other-options...]
+```
+
+## Health Monitoring
+
+The image includes a built-in health check that monitors etcd's endpoint health:
+
+```bash
+# Check container health status
+docker ps --format "table {{.Names}}\t{{.Status}}"
+
+# View health check logs
+docker inspect --format='{{json .State.Health}}' etcd-container | jq
+```
+
+The health check runs every 30 seconds and checks if etcd is responding on port 2379.
+
+## Security Considerations
+
+This image implements several security best practices:
+
+- ✅ **Non-root user**: Runs as `etcd` user (not root)
+- ✅ **Proper file permissions**: Data directory owned by `etcd` user
+- ⚠️ **Authentication disabled by default**: `ALLOW_NONE_AUTHENTICATION="yes"`
+
+For production use, additionally consider:
+
+- Using TLS for client and peer communication
+- Enabling authentication and authorization (set `ALLOW_NONE_AUTHENTICATION="no"`)
+- Configuring proper firewall rules
+- Regular backups of etcd data
+- Using secrets management for sensitive configuration
+
+## Further Reading
+
+- [etcd Official Documentation](https://etcd.io/docs/)
+- [etcd Configuration Reference](https://etcd.io/docs/v3.6/op-guide/configuration/)
+- [etcd Clustering Guide](https://etcd.io/docs/v3.6/op-guide/clustering/)
+
+## Notes
+
+AI was used to generate this README.md file, was proofread by human eyes. Some bad info may still exist.
