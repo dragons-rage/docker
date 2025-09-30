@@ -8,6 +8,7 @@ FROM alpine:${ALPINE_VERSION} AS builder
 
 ARG TARGETARCH
 RUN apk add --no-cache alpine-sdk git curl bash && \
+    echo "Building for architecture: ${TARGETARCH}" && \
     curl -fSL -o go.tar.gz https://go.dev/dl/go${GO_VERSION}.linux-${TARGETARCH}.tar.gz && \
     tar -xvf go.tar.gz -C /usr/local
 ENV PATH="/usr/local/go/bin:${PATH}"
