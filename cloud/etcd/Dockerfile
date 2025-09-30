@@ -21,5 +21,11 @@ COPY --from=builder /etcd/bin/etcd /usr/bin/etcd
 COPY --from=builder /etcd/bin/etcdctl /usr/bin/etcdctl
 COPY --from=builder /etcd/bin/etcdutl /usr/bin/etcdutl
 
+ENV ETCD_DATA_DIR=/data/etcd \
+    ETCD_ENABLE_V2="true" \
+    ALLOW_NONE_AUTHENTICATION: "yes" \
+    ETCD_ADVERTISE_CLIENT_URLS: "http://etcd:2379" \
+    ETCD_LISTEN_CLIENT_URLS: "http://0.0.0.0:2379"
+
 EXPOSE 2379 2380
 CMD [ "etcd" ]
