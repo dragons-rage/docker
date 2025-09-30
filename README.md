@@ -4,9 +4,6 @@ Dockerfiles that are for minor services I need. With certain companies moving to
 it is nessecary to completely remove them from any workflow. This is just a bid for money while
 using community sourced software.
 
-## Update
-
-Repurposing an old repo I used for images. No automatic builds yet.
 
 ## Building
 

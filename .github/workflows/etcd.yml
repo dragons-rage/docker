@@ -3,8 +3,6 @@ run-name: ${{ github.repository }} - ${{ github.actor }} by ${{ github.event_nam
 
 env:
   APP_DIR: cloud/etcd/
-  # TODO: maybe move to ci/cd in repo
-
   # Used for Docker Containers
   DOCKER_IMAGE: faliarin/etcd
   # Used for GitHub Packages
@@ -18,17 +16,8 @@ on:
       - "main"
     paths:
       - "cloud/etcd/**"
-      - "**/README.md"
-      - "!README.md"
-      - "!.github/**"
+      - "!cloud/etcd/README.md"
       - "!cloud/etcd/VERSION"
-  # pull_request:
-  #   branches:
-  #     - "main"
-  #   paths:
-  #     - "**"
-  #     - "!README.md"
-  #     - "!.github/**"
 jobs:
   get-next-version:
     runs-on: ubuntu-latest
