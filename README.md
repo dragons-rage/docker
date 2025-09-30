@@ -15,5 +15,6 @@ You can build from the github repo sub directories by specifing the branch and d
 Example:
 
 ```bash
-git build -t etcd https://github.com/dstritzel/docker.git\#cloud/etcd/
+docker build -t etcd https://github.com/dstritzel/docker.git\#main:cloud/etcd/
+podman build -t etcd https://github.com/dstritzel/docker.git\#main:cloud/etcd/
 ```
