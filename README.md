@@ -1,25 +1,12 @@
 # docker
 
-Docker Modules to assist in daily one off programs.
+Dockerfiles that are for minor services I need. With certain companies moving to "secure images"
+it is nessecary to completely remove them from any workflow. This is just a bid for money while
+using community sourced software.
 
 ## Update
 
-I am moving each container to a separate repository. This will allow me to use
-github runner for the entire org and keep ci/ci and versioning more simple.
-
-New Locations:
-
-- [tintin++ for docker](https://github.com/dragons-rage/docker-tintin/)
-- [ubuntu-core](https://github.com/dragons-rage/ubuntu-core)
-- [alpine-core](https://github.com/dragons-rage/alpine-core)
-
-## Programs
-
-| Container | Description |
-|-----------|-------------|
-| alpine-core | Modified alpine core for any hub items used in this repo |
-| ubuntu-core | Modified ubuntu TLS for any Docker items used in this repo |
-| tintin      | A program that allows for connecting to MUDs (Text Based Multi User Dungeons) |
+Repurposing an old repo I used for images. No automatic builds yet.
 
 ## Building
 
@@ -28,7 +15,5 @@ You can build from the github repo sub directories by specifing the branch and d
 Example:
 
 ```bash
-git build -t tintin https://github.com/dstritzel/docker.git\#master/tintin
+git build -t etcd https://github.com/dstritzel/docker.git\#cloud/etcd/
 ```
-
-In the example replace `tintin` with the tag and project of your choice.
