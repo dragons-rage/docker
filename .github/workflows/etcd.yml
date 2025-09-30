@@ -9,7 +9,7 @@ env:
   DOCKER_IMAGE: faliarin/etcd
   # Used for GitHub Packages
   GITHUB_REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: etcd
 
 on:
   workflow_dispatch:
@@ -18,6 +18,7 @@ on:
       - "main"
     paths:
       - "cloud/etcd/**"
+      - "**/README.md"
       - "!README.md"
       - "!.github/**"
       - "!cloud/etcd/VERSION"
