@@ -2,6 +2,7 @@ name: Build and Deploy ETCD
 run-name: ${{ github.repository }} - ${{ github.actor }} by ${{ github.event_name }} ${{ github.ref }}
 
 env:
+  APP_DIR: cloud/etcd/
   # TODO: maybe move to ci/cd in repo
 
   # Used for Docker Containers
@@ -45,10 +46,10 @@ jobs:
       - name: get version from file
         id: get_version
         run: |
-          VERSION=$(cat cloud/etcd/VERSION)
+          VERSION=$(cat ${{env.APP_DIR}}/VERSION)
           CURRENT_APP_VERSION=$(echo $VERSION | awk -F- '{print $1}')
           CURRENT_BUILD_VERSION=$(echo $VERSION | awk -F- '{print $2}')
-          NEW_APP_VERSION=$(cat cloud/etcd/Dockerfile | grep 'ARG ETCD_VERSION=' | awk -F= '{print $2}')
+          NEW_APP_VERSION=$(cat ${{env.APP_DIR}}/Dockerfile | grep 'ARG ETCD_VERSION=' | awk -F= '{print $2}')
           if [ "$CURRENT_APP_VERSION" != "$NEW_APP_VERSION" ]; then
             echo "App version has changed from $CURRENT_APP_VERSION to $NEW_APP_VERSION"
             app_version=$NEW_APP_VERSION
@@ -105,6 +106,7 @@ jobs:
         uses: docker/build-push-action@v3
         if: ${{ (github.event_name != 'pull_request') }}
         with:
+          context: ${{ env.APP_DIR }}
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ env.DOCKER_IMAGE }}:latest,${{ env.DOCKER_IMAGE }}:${{ needs.get-next-version.outputs.version }},${{ env.DOCKER_IMAGE }}:${{ needs.get-next-version.outputs.app_version }} 
@@ -156,7 +158,7 @@ jobs:
         uses: docker/build-push-action@v3
         if: ${{ (github.event_name != 'pull_request') }}
         with:
-          context: .
+          context: ${{ env.APP_DIR }}
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ steps.meta.outputs.tags }}
