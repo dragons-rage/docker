@@ -9,10 +9,11 @@ FROM alpine:${ALPINE_VERSION} AS builder
 ARG TARGETARCH
 RUN apk add --no-cache alpine-sdk git curl bash && \
     echo "Building for architecture: ${TARGETARCH}" && \
-    curl -fSL -o go.tar.gz https://go.dev/dl/go${GO_VERSION}.linux-${TARGETARCH}.tar.gz && \
+    echo curl -fSL -o go.tar.gz https://go.dev/dl/go${GO_VERSION}.linux-${TARGETARCH}.tar.gz && \
+    curl -fSL -o go.tar.gz "https://go.dev/dl/go${GO_VERSION}.linux-${TARGETARCH}.tar.gz" && \
     tar -xvf go.tar.gz -C /usr/local
 ENV PATH="/usr/local/go/bin:${PATH}"
-RUN curl -fSL -o etcd.tar.gz https://github.com/etcd-io/etcd/archive/refs/tags/v${ETCD_VERSION}.tar.gz && \
+RUN curl -fSL -o etcd.tar.gz "https://github.com/etcd-io/etcd/archive/refs/tags/v${ETCD_VERSION}.tar.gz" && \
     mkdir -p /etcd && \
     tar -zxf etcd.tar.gz -C /etcd --strip-components=1 && \
     rm -rf etcd.tar.gz && \
