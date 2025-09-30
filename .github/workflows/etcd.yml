@@ -1,0 +1,163 @@
+name: Build and Deploy Container
+run-name: ${{ github.repository }} - ${{ github.actor }} by ${{ github.event_name }} ${{ github.ref }}
+
+env:
+  # TODO: maybe move to ci/cd in repo
+
+  # Used for Docker Containers
+  DOCKER_IMAGE: faliarin/etcd
+  # Used for GitHub Packages
+  GITHUB_REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "main"
+    paths:
+      - "cloud/etcd/**"
+      - "!README.md"
+      - "!.github/**"
+      - "!cloud/etcd/VERSION"
+  # pull_request:
+  #   branches:
+  #     - "main"
+  #   paths:
+  #     - "**"
+  #     - "!README.md"
+  #     - "!.github/**"
+jobs:
+  get-next-version:
+    runs-on: ubuntu-latest
+    name: Get next version
+    outputs:
+      version: ${{ steps.get_version.outputs.version }}
+      app_version: ${{ steps.get_version.outputs.app_version }}
+      build_version: ${{ steps.get_version.outputs.build_version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: get version from file
+        id: get_version
+        run: |
+          VERSION=$(cat cloud/etcd/VERSION)
+          CURRENT_APP_VERSION=$(echo $VERSION | awk -F- '{print $1}')
+          CURRENT_BUILD_VERSION=$(echo $VERSION | awk -F- '{print $2}')
+          NEW_APP_VERSION=$(cat cloud/etcd/Dockerfile | grep 'ARG ETCD_VERSION=' | awk -F= '{print $2}')
+          if [ "$CURRENT_APP_VERSION" != "$NEW_APP_VERSION" ]; then
+            echo "App version has changed from $CURRENT_APP_VERSION to $NEW_APP_VERSION"
+            app_version=$NEW_APP_VERSION
+            VERSION=$(echo $VERSION | sed "s/-$CURRENT_APP_VERSION/-$NEW_APP_VERSION/")
+            NEW_BUILD_VERSION=0
+          else
+            app_version=$CURRENT_APP_VERSION
+            NEW_BUILD_VERSION=$((CURRENT_BUILD_VERSION + 1))
+          fi
+          VERSION="$app_version-$NEW_BUILD_VERSION"
+          echo $VERSION > cloud/etcd/VERSION
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "app_version=$app_version" >> $GITHUB_OUTPUT
+          echo "build_version=$NEW_BUILD_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Tag Release (vX.Y.Z)
+        if: ${{ (github.event_name != 'pull_request') }}
+        run: |
+          git add cloud/etcd/VERSION
+          git commit -m "Bump version to ${{ steps.get_version.outputs.version }}"
+          git push origin main
+
+      - name: Echo Version
+        run: echo "Version would be ${{ steps.get_version.outputs.version }}"
+
+  docker-push:
+    name: Push to DockerHub
+    needs: [get-next-version]
+    runs-on: arc-runner-set
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Execute Order 66
+        run: |
+          echo "This is the version to be referenced: ${{ needs.get-next-version.outputs.version }}"
+
+      - name: Build and Push Docker Master Branch
+        uses: docker/build-push-action@v3
+        if: ${{ (github.event_name != 'pull_request') }}
+        with:
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ env.DOCKER_IMAGE }}:latest,${{ env.DOCKER_IMAGE }}:${{ needs.get-next-version.outputs.version }},${{ env.DOCKER_IMAGE }}:${{ needs.get-next-version.outputs.app_version }} 
+          provenance: mode=max
+          sbom: true
+
+  github-push:
+    runs-on: arc-runner-set
+    needs: [get-next-version]
+    name: Push to github packages
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        id: github-registry
+        with:
+          registry: ${{ env.GITHUB_REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Execute Order 66
+        run: |
+          echo "This is the version to be referenced: ${{ needs.get-next-version.outputs.version }}"
+
+      - name: Extract metadata for Docker
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          tags: |
+            # Always put version
+            type=semver,pattern={{version}},value=${{ needs.get-next-version.outputs.version }},enable=true
+            type=semver,pattern={{version}},value=${{ needs.get-next-version.outputs.app_version }},enable=true
+            # If the push is to the default branch enable
+            #type=raw,value=latest,enable={{is_default_branch}}
+          images: ${{ env.GITHUB_REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Build and Push Docker Master Branch
+        uses: docker/build-push-action@v3
+        if: ${{ (github.event_name != 'pull_request') }}
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          # provenance: mode=max
+          # sbom: true
+
