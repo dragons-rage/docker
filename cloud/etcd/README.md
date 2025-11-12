@@ -24,8 +24,8 @@ The following build arguments can be customized when building the image:
 
 | Argument | Default | Description |
 |----------|---------|-------------|
-| `GO_VERSION` | `1.23.9` | Go version to download and use for compilation |
-| `ETCD_VERSION` | `3.6.5` | etcd version to download and compile |
+| `GO_VERSION` | `1.25.1` | Go version to download and use for compilation |
+| `ETCD_VERSION` | `3.6.6` | etcd version to download and compile |
 | `TARGETARCH` | (auto-detected) | Target architecture for Go compilation (e.g., amd64, arm64) |
 
 ## Building the Image
